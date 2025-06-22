@@ -1,0 +1,313 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package application.views;
+
+import application.dao.AlternatifDao;
+import application.dao.CriteriaDao;
+import application.dao.RangkingDao;
+import application.daoimpl.AlternatifDaoImpl;
+import application.daoimpl.CriteriaDaoImpl;
+import application.daoimpl.RangkingDaoImpl;
+import application.models.AlternatifModel;
+import application.models.CriteriaModel;
+import application.models.RangkingModel;
+import application.utils.DatabaseUtil;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
+/**
+ *
+ * @author mhdja
+ */
+public class PerhitunganSAW extends javax.swing.JPanel {
+    public final AlternatifDao alternatifDao;
+    public final RangkingDao rangkingDao;
+    public final CriteriaDao criteriaDao;
+    
+    public void getDataNormalisasi() {
+        List<AlternatifModel> normalisasiList = alternatifDao.findNormalisasi(); // Ambil data normalisasi
+
+        // Buat model tabel dengan kolom: Nama Pelanggan, Nama Kriteria, Nilai Normalisasi
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new Object[]{"Nama Peserta", "Nama Kriteria", "Nilai Normalisasi"});
+
+        // Isi tabel dengan data
+        for (AlternatifModel alternatif : normalisasiList) {
+            model.addRow(new Object[]{
+                alternatif.getNameAlternatif(),
+                alternatif.getNameKriteria(),
+                String.format("%.4f", alternatif.getNormalisasi()) // Format 4 desimal (misalnya 0.6667)
+            });
+        }
+
+        // Set model ke jTable2
+        jTable1.setModel(model);
+    }
+    
+    public void getAllRangking() {
+        List<RangkingModel> rangkingList = rangkingDao.findRangking();
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new Object[]{"Nama", "Total Nilai", "Peringkat"});
+
+        for (RangkingModel rangking : rangkingList) {
+            model.addRow(new Object[]{
+                rangking.getNamaAlternatif(),
+                String.format("%.4f", rangking.getTotalNilai()),
+                rangking.getPeringkat()
+            });
+        }
+
+        jTable2.setModel(model);
+    }
+    
+    public void getKriteriaMaxMin() {
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"Nama Kriteria", "Type", "Nilai Max / Min"}, 0);
+        List<CriteriaModel> data = criteriaDao.getDataKriteriaMaxMin();
+
+        for (CriteriaModel k : data) {
+            model.addRow(new Object[]{k.getName(), k.getType(), k.getBobot()});
+        }
+
+        jTable3.setModel(model);
+    }
+
+
+    /**
+     * Creates new form PerhitunganSAW
+     */
+    public PerhitunganSAW() {
+        this.alternatifDao = new AlternatifDaoImpl();
+        this.rangkingDao = new RangkingDaoImpl();
+        this.criteriaDao = new CriteriaDaoImpl();
+        
+        initComponents();
+              
+        jLabel3.setText("<html>"
+        + "<b>Rumus Normalisasi SAW:</b><br><br>"
+        + "Untuk kriteria <b>Benefit</b>: R<sub>ij</sub> = X<sub>ij</sub> / X<sub>max</sub><br>"
+        + "Untuk kriteria <b>Cost</b>: R<sub>ij</sub> = X<sub>min</sub> / X<sub>ij</sub><br><br>"
+        + "<b>Keterangan:</b><br>"
+        + "R<sub>ij</sub> = Nilai normalisasi dari alternatif ke-i pada kriteria ke-j<br>"
+        + "X<sub>ij</sub> = Nilai awal alternatif ke-i pada kriteria ke-j<br>"
+        + "X<sub>max</sub> = Nilai maksimum pada kriteria ke-j (untuk benefit)<br>"
+        + "X<sub>min</sub> = Nilai minimum pada kriteria ke-j (untuk cost)"
+        + "</html>");
+
+        
+        jLabel4.setText("<html>"
+        + "<b>Rumus Perhitungan Rangking SAW:</b><br><br>"
+        + "V<sub>i</sub> = &Sigma; (R<sub>ij</sub> &times; W<sub>j</sub>)<br>"
+        + "Keterangan:<br>"
+        + "V<sub>i</sub> = total nilai alternatif ke-i<br>"
+        + "R<sub>ij</sub> = nilai normalisasi alternatif ke-i pada kriteria ke-j<br>"
+        + "W<sub>j</sub> = bobot kriteria ke-j"
+        + "</html>");
+
+
+        
+        getDataNormalisasi();
+        getAllRangking();
+        getKriteriaMaxMin();
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Normalisasi Matriks Keputusan");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("RANKING");
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        jButton2.setText("CETAK LAPORAN");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable3);
+
+        jLabel3.setText("jLabel3");
+
+        jLabel4.setText("jLabel4");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton2))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(98, 98, 98))
+        );
+
+        jScrollPane4.setViewportView(jPanel1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            String templateName = "ReportRangkingBiznet.jrxml";
+            InputStream reportStream = ReportView.class.getResourceAsStream("/resources/reports/" + templateName);
+            JasperDesign jd = JRXmlLoader.load(reportStream);
+
+            Connection dbConnection = DatabaseUtil.getInstance().getConnection();
+
+            JasperReport jr = JasperCompileManager.compileReport(jd);
+
+            HashMap parameter = new HashMap();
+            parameter.put("PATH","src/resources/images/");
+            
+            JasperPrint jp = JasperFillManager.fillReport(jr,parameter, dbConnection);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    // End of variables declaration//GEN-END:variables
+}
