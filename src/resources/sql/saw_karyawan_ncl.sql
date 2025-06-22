@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2025 at 02:10 PM
+-- Generation Time: Jun 22, 2025 at 06:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `saw_kinerja_karyawan_biznet`
+-- Database: `saw_karyawan_ncl`
 --
 
 -- --------------------------------------------------------
@@ -38,18 +38,11 @@ CREATE TABLE `alternatif` (
 --
 
 INSERT INTO `alternatif` (`id`, `id_employee`, `id_sub_kreteria`) VALUES
-(9, 6, 2),
-(10, 6, 5),
-(11, 6, 10),
-(12, 6, 12),
-(13, 1, 1),
-(14, 1, 4),
-(15, 1, 7),
-(16, 1, 11),
-(17, 4, 2),
-(18, 4, 4),
-(19, 4, 7),
-(20, 4, 11);
+(21, 1, 1),
+(22, 1, 5),
+(23, 1, 9),
+(24, 1, 13),
+(25, 1, 17);
 
 -- --------------------------------------------------------
 
@@ -69,10 +62,11 @@ CREATE TABLE `criteria` (
 --
 
 INSERT INTO `criteria` (`id`, `nama`, `type`, `bobot`) VALUES
-(1, 'Dive for Result', 'benefit', 30.00),
-(2, 'Costumer Focus Orientation', 'benefit', 25.00),
-(3, 'Team Work', 'benefit', 25.00),
-(4, 'Initiative-innovation', 'benefit', 25.00);
+(1, 'Kejujuran', 'benefit', 1.00),
+(2, 'Tanggung Jawab', 'benefit', 2.00),
+(3, 'Absensi', 'benefit', 3.00),
+(4, 'Kedisiplinan', 'benefit', 4.00),
+(5, 'Komunikasi', 'benefit', 5.00);
 
 -- --------------------------------------------------------
 
@@ -91,10 +85,12 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `name`, `position`) VALUES
-(1, 'Muhammad Januar', 'Developer'),
-(4, 'Helmy Akbar', 'Staff'),
-(5, 'Tanneke Iqbal', 'Head Office'),
-(6, 'Galang Wijaya', 'HRD');
+(1, 'Asni Ciberro', 'Karyawan'),
+(2, 'Achmad Shidqii', 'Karyawan'),
+(3, 'Giar Kundari', 'Karyawan'),
+(4, 'Jumadi', 'Karyawan'),
+(5, 'Metha Anastassia', 'Karyawan'),
+(6, 'Lina Ana', 'Manager');
 
 -- --------------------------------------------------------
 
@@ -114,18 +110,26 @@ CREATE TABLE `sub_criteria` (
 --
 
 INSERT INTO `sub_criteria` (`id`, `id_kreteria`, `jumlah_bobot`, `deskripsi`) VALUES
-(1, 1, 3.00, 'Selalu mencapai target lebih dari ekspektasi'),
-(2, 1, 2.00, 'Hampir mencapai target'),
-(3, 1, 1.00, 'Tidak mencapai target sama sekali'),
-(4, 2, 3.00, 'Sangat responsif dan ramah terhadap pelanggan'),
-(5, 2, 2.00, 'Cukup responsif namun kurang memahami kebutuhan'),
-(6, 2, 1.00, 'Tidak peduli terhadap pelanggan'),
-(7, 3, 3.00, 'Sangat kooperatif dan membantu semua anggota'),
-(8, 3, 2.00, 'Bekerja sama bila diperlukan'),
-(10, 3, 1.00, 'Tidak bisa bekerja dalam tim'),
-(11, 4, 3.00, 'Sering memberi ide kreatif yang bermanfaat'),
-(12, 4, 2.00, 'Jarang memberi ide namun cukup proaktif'),
-(14, 4, 1.00, 'Tidak pernah memberi ide dan pasif');
+(1, 1, 4.00, 'Sangat jujur (tidak pernah melakukan pelanggaran)'),
+(2, 1, 3.00, 'Jujur (jarang melakukan pelanggaran ringan)'),
+(3, 1, 2.00, 'Kurang jujur (pernah melakukan pelanggaran ringan)'),
+(4, 1, 1.00, 'Tidak jujur (pernah melakukan pelanggaran berat)'),
+(5, 2, 4.00, 'Selalu menyelesaikan tugas tepat waktu dan sesuai target'),
+(6, 2, 3.00, 'Menyelesaikan tugas dengan sedikit keterlambatan'),
+(7, 2, 2.00, 'Sering menunda tugas atau butuh pengawasan'),
+(8, 2, 1.00, 'Tidak menyelesaikan tugas atau sering lalai'),
+(9, 3, 4.00, 'Tidak pernah absen (0 hari dalam sebulan)'),
+(10, 3, 3.00, 'Absen 1–2 hari dalam sebulan'),
+(11, 3, 2.00, 'Absen 3–4 hari dalam sebulan'),
+(12, 3, 1.00, 'Absen > 4 hari dalam sebulan'),
+(13, 4, 4.00, 'Selalu datang tepat waktu, patuh pada aturan'),
+(14, 4, 3.00, 'Kadang datang terlambat, masih mematuhi aturan'),
+(15, 4, 2.00, 'Sering datang terlambat'),
+(16, 4, 1.00, 'Sering melanggar peraturan kerja'),
+(17, 5, 4.00, 'Sangat baik (aktif berkomunikasi & kooperatif)'),
+(18, 5, 3.00, 'Baik (komunikasi lancar dengan rekan kerja)'),
+(19, 5, 2.00, 'Cukup (terkadang pasif)'),
+(20, 5, 1.00, 'Kurang (sulit diajak bekerja sama)');
 
 -- --------------------------------------------------------
 
@@ -196,13 +200,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alternatif`
 --
 ALTER TABLE `alternatif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `criteria`
 --
 ALTER TABLE `criteria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `employees`
@@ -214,7 +218,7 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `sub_criteria`
 --
 ALTER TABLE `sub_criteria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `users`
