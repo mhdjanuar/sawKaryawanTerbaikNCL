@@ -81,13 +81,13 @@ public class MenuView extends javax.swing.JFrame {
         
        Home.setLayout(new GridBagLayout()); // agar isi panel di tengah otomatis
 
-        JLabel homeLabel = new JLabel("Selamat Datang di Aplikasi");
-        JLabel homeLabel2 = new JLabel("Sistem Pendukung Keputusan Penilaian Kinerja Karyawan");
-        JLabel homeLabel3 = new JLabel("PT. Supra Primatama");
+        JLabel homeLabel2 = new JLabel("Sistem Pendukung Keputusan Penentuan Karyawan Terbaik");
+        JLabel homeLabel3 = new JLabel("Dengan Metode Simple Additive Weighting (SAW)");
+        JLabel homeLabel4 = new JLabel("Pada PT. NielsenIQ Indonesia");
 
-        homeLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         homeLabel2.setFont(new Font("SansSerif", Font.BOLD, 24)); // bisa pakai font lain
         homeLabel3.setFont(new Font("SansSerif", Font.BOLD, 24)); // bisa pakai font lain
+        homeLabel4.setFont(new Font("SansSerif", Font.BOLD, 24)); // bisa pakai font lain
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -95,13 +95,14 @@ public class MenuView extends javax.swing.JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(10, 0, 10, 0); // spasi antar komponen (atas, kiri, bawah, kanan)
 
-        Home.add(homeLabel, gbc);
-
         gbc.gridy = 1; // baris kedua
         Home.add(homeLabel2, gbc);
         
         gbc.gridy = 2; // baris kedua
         Home.add(homeLabel3, gbc);
+        
+        gbc.gridy = 3; // baris kedua
+        Home.add(homeLabel4, gbc);
 
         
         // Panel utama

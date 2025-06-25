@@ -108,7 +108,7 @@ inner join saw_karyawan_ncl.criteria as c on sc.id_kreteria = c.id]]>
 	<pageHeader>
 		<band height="80" splitType="Stretch">
 			<frame>
-				<reportElement mode="Opaque" x="-20" y="-30" width="595" height="110" forecolor="#FFFCFC" backcolor="#FFFFFF" uuid="5c8f4989-831c-4e43-a636-821b5ee26eeb"/>
+				<reportElement mode="Opaque" x="-20" y="-30" width="595" height="110" forecolor="#FFFCFC" backcolor="#FFFFFF" uuid="8614d487-da76-43bf-a37d-a0c7d8e4b983"/>
 				<box padding="0">
 					<pen lineColor="#000000"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -117,7 +117,7 @@ inner join saw_karyawan_ncl.criteria as c on sc.id_kreteria = c.id]]>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<staticText>
-					<reportElement x="90" y="21" width="430" height="30" forecolor="#000000" uuid="48a1f461-2e20-4873-a335-abba848ee311"/>
+					<reportElement x="90" y="21" width="430" height="30" forecolor="#000000" uuid="6daf5aa3-6e90-4aab-aaca-ffac3ce923a5"/>
 					<textElement textAlignment="Center">
 						<font fontName="Times New Roman" size="20" isBold="true"/>
 						<paragraph lineSpacingSize="1.0"/>
@@ -125,18 +125,18 @@ inner join saw_karyawan_ncl.criteria as c on sc.id_kreteria = c.id]]>
 					<text><![CDATA[Nielsen Consumer LLC]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="220" y="52" width="260" height="20" forecolor="#000000" uuid="f405db70-6060-4081-8854-0e2392c8b1a1"/>
+					<reportElement x="130" y="54" width="380" height="20" forecolor="#000000" uuid="032d289b-bd98-4bc9-91e9-e8c4f05b6c90"/>
 					<textElement>
 						<font fontName="Times New Roman"/>
 					</textElement>
-					<text><![CDATA[Jl. Raya Condet Kramat Jati Jakarta Timur]]></text>
+					<text><![CDATA[Millenium Centennial Center lantai 43&46, Jl. Jenderal Sudirman No.Kav 28, RT.4/RW.2]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="250" y="73" width="180" height="20" forecolor="#000000" uuid="982d74c4-983a-4adc-a07a-ce1f73f5cc79"/>
-					<text><![CDATA[DKI JAKARTA 13450]]></text>
+					<reportElement x="150" y="71" width="340" height="20" forecolor="#000000" uuid="3e5fb385-5509-455e-9661-5a09670aeb3e"/>
+					<text><![CDATA[Kuningan, Karet Kuningan, Setiabudi, Kota Jakarta Selatan, Jakarta 12920]]></text>
 				</staticText>
 				<image>
-					<reportElement x="40" y="25" width="100" height="100" uuid="7d8173cf-db76-4b80-b00f-514678a5c8bc"/>
+					<reportElement x="25" y="35" width="100" height="100" uuid="7d8173cf-db76-4b80-b00f-514678a5c8bc"/>
 					<imageExpression><![CDATA[$P{PATH}+"niq-full.png"]]></imageExpression>
 				</image>
 			</frame>

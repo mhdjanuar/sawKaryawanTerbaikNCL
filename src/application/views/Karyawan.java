@@ -61,7 +61,7 @@ import net.sf.jasperreports.view.JasperViewer;
             // Set Model untuk JTable
             DefaultTableModel model = new DefaultTableModel();
             model.setColumnIdentifiers(new Object[]{
-                "ID Karyawan", "Nama", "Jabatan",
+                "ID Karyawan", "Nama", "Jenis Kelaman", "Alamat"
             });
 
             // Masukkan data karyawan ke dalam model JTable
@@ -69,7 +69,8 @@ import net.sf.jasperreports.view.JasperViewer;
                 model.addRow(new Object[]{
                     karyawan.getId(),
                     karyawan.getName(),
-                    karyawan.getJabatan()
+                    karyawan.getGender(),
+                    karyawan.getAlamat()
                 });
             }
 
@@ -90,28 +91,32 @@ import net.sf.jasperreports.view.JasperViewer;
         
         // Tambahkan event listener pada JTable
         jTable1.getSelectionModel().addListSelectionListener(e -> {
-            // Cegah event dua kali saat update
-            if (!e.getValueIsAdjusting() && jTable1.getSelectedRow() != -1) {
-                int selectedRow = jTable1.getSelectedRow();
+        // Cegah event dua kali saat update
+        if (!e.getValueIsAdjusting() && jTable1.getSelectedRow() != -1) {
+            int selectedRow = jTable1.getSelectedRow();
 
-                // Ambil data dari baris yang diklik
-                String nama = jTable1.getValueAt(selectedRow, 1).toString();
-                String jabatan = jTable1.getValueAt(selectedRow, 2).toString();
-                
-                this.selectedId = jTable1.getValueAt(selectedRow, 0).toString();
+            // Ambil data dari baris yang diklik
+            String nama = jTable1.getValueAt(selectedRow, 1).toString();
+            String gender = jTable1.getValueAt(selectedRow, 2).toString();
+            String alamat = jTable1.getValueAt(selectedRow, 3).toString();
 
-                // Tampilkan ke form
-                txtNama.setText(nama);
-                txtJabatan.setText(jabatan);
-            }
-        });
+            this.selectedId = jTable1.getValueAt(selectedRow, 0).toString();
 
+            // Tampilkan ke form
+            txtNama.setText(nama);
+            txtAlamat.setText(alamat);
+            cbGender.setSelectedItem(gender);
+        }
+    });
+
+
+        
     }
     
     public void clearForm() {
         // Clear all the text fields
         txtNama.setText("");  // Menghapus teks di text field Nama
-        txtJabatan.setText("");  // Menghapus teks di text field Usia
+        txtAlamat.setText("");  // Menghapus teks di text field Usia
 
 
         // Log untuk memastikan form di-clear
@@ -134,7 +139,7 @@ import net.sf.jasperreports.view.JasperViewer;
         jLabel1 = new javax.swing.JLabel();
         txtNama = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtJabatan = new javax.swing.JTextField();
+        txtAlamat = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -142,6 +147,8 @@ import net.sf.jasperreports.view.JasperViewer;
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        cbGender = new javax.swing.JComboBox<>();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -159,7 +166,13 @@ import net.sf.jasperreports.view.JasperViewer;
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("FORM KARYAWAN");
 
-        jLabel2.setText("Jabatan");
+        txtAlamat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAlamatActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Jenis Kelamin");
 
         jButton1.setText("SIMPAN");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -202,53 +215,81 @@ import net.sf.jasperreports.view.JasperViewer;
             }
         });
 
+        jLabel4.setText("Alamat");
+
+        cbGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laki-Laki", "Perempuan" }));
+        cbGender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbGenderActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(txtJabatan)
-                    .addComponent(txtNama)
-                    .addComponent(jLabel3)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel1)
+                                    .addComponent(txtNama)
+                                    .addComponent(jLabel3)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel2))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtAlamat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addContainerGap()
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
+                        .addGap(34, 34, 34)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtJabatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(jButton3)
                             .addComponent(jButton4))
-                        .addGap(58, 58, 58)
-                        .addComponent(jButton2)))
-                .addContainerGap(69, Short.MAX_VALUE))
+                        .addGap(0, 74, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -262,45 +303,50 @@ import net.sf.jasperreports.view.JasperViewer;
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(301, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Ambil nilai input dari form
-        String nama = txtNama.getText().trim();
-        String jabatan = txtJabatan.getText().trim();
+            // Ambil nilai input dari form
+            String nama = txtNama.getText().trim();
+            String alamat = txtAlamat.getText().trim();
+            String gender = cbGender.getSelectedItem().toString(); // dari dropdown
 
-        // Log input yang diterima
-        System.out.println("Nama: " + nama);
-       
+            // Log input
+            System.out.println("Nama: " + nama);
+            System.out.println("Alamat: " + alamat);
+            System.out.println("Gender: " + gender);
 
-        // Set ke model
-        KaryawanModel karyawan = new KaryawanModel();
-        karyawan.setName(nama);
-        karyawan.setJabatan(jabatan);
+            // Set ke model
+            KaryawanModel karyawan = new KaryawanModel();
+            karyawan.setName(nama);
+            karyawan.setAlamat(alamat);
+            karyawan.setGender(gender);
 
-//         Simpan ke DB (uncomment baris ini untuk mengaktifkan penyimpanan)
-         int result = karyawanDao.create(karyawan);
-         if (result > 0) {
-             JOptionPane.showMessageDialog(this, "Data karyawan berhasil disimpan.");
-             getAllData();
-             clearForm();
-         } else {
-             JOptionPane.showMessageDialog(this, "Gagal menyimpan data karyawan.");
-         }
+            // Simpan ke DB
+            int result = karyawanDao.create(karyawan);
+            if (result > 0) {
+                JOptionPane.showMessageDialog(this, "Data karyawan berhasil disimpan.");
+                getAllData();
+                clearForm();
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menyimpan data karyawan.");
+            }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
          // Ambil nilai input dari form
         String nama = txtNama.getText().trim();
-        String jabatan = txtJabatan.getText().trim();
+        String alamat = txtAlamat.getText().trim();
+        String gender = cbGender.getSelectedItem().toString(); // dari dropdown
 
         // Set ke model
         KaryawanModel karyawan = new KaryawanModel();
         karyawan.setId(parseInt(this.selectedId)); // ID Karyawan yang akan diupdate
         karyawan.setName(nama);
-        karyawan.setJabatan(jabatan);
+        karyawan.setAlamat(alamat);
+        karyawan.setGender(gender);
 
         // Panggil fungsi update di DAO
         int result = karyawanDao.update(karyawan);
@@ -349,8 +395,17 @@ import net.sf.jasperreports.view.JasperViewer;
         } 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void txtAlamatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlamatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAlamatActionPerformed
+
+    private void cbGenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbGenderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbGenderActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbGender;
     private javax.swing.ButtonGroup gender;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -359,12 +414,13 @@ import net.sf.jasperreports.view.JasperViewer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtJabatan;
+    private javax.swing.JTextField txtAlamat;
     private javax.swing.JTextField txtNama;
     // End of variables declaration//GEN-END:variables
 }
